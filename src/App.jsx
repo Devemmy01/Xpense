@@ -1,11 +1,19 @@
-import { Button } from "./components/ui/button"
+import React from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import Auth from "./pages/Auth"
+import ExpenseTracker from "./pages/ExpenseTracker"
 
 function App() {
 
   return (
-    <>
-      <Button>Click me</Button>
-    </>
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="/" exact element={<Auth />}/>
+            <Route path="expense_tracker" element={<ExpenseTracker />} />
+          </Routes>
+        </Router>
+      </div>
   )
 }
 
