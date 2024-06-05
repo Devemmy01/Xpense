@@ -12,7 +12,7 @@ const useAddTransaction = () => {
 
   const { userID } = userInfo;
 
-  const addTransaction = async ({ description, amount, type }) => {
+  const addTransaction = async ({ description, transactionAmount, transactionType }) => {
     if (!userID) {
       throw new Error("User ID is missing");
     }
@@ -20,8 +20,8 @@ const useAddTransaction = () => {
     await addDoc(transactionCollectionRef, {
       userID,
       description,
-      amount,
-      type,
+      transactionAmount,
+      transactionType,
       createdAt: serverTimestamp(),
     });
   };

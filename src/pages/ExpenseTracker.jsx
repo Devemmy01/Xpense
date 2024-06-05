@@ -4,7 +4,7 @@ import useAddTransaction from "@/hooks/useAddTransaction";
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
 
-  const [description, setDesscription] = useState("");
+  const [description, setDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState(0);
   const [transactionType, setTransactionType] = useState("expense");
 
@@ -16,7 +16,7 @@ const ExpenseTracker = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addTransaction({ description: "gamepad", amount: 6000, type: "expense" });
+    addTransaction({ description, transactionAmount, transactionType });
   };
   return (
     <>
@@ -39,11 +39,33 @@ const ExpenseTracker = () => {
           </div>
 
           <form className="add_transaction" onSubmit={onSubmit}>
-            <input type="text" placeholder="Description" required />
-            <input type="number" placeholder="Amount" required />
-            <input type="radio" id="expense" value="expense" />
+            <input
+              type="text"
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+              required
+            />
+            <input
+              type="number"
+              onChange={(e) => setTransactionAmount(e.target.value)}
+              placeholder="Amount"
+              required
+            />
+            <input
+              type="radio"
+              onChange={(e) => setTransactionType(e.target.value)}
+              id="expense"
+              value="expense"
+              checked={transactionType === "expense"}
+            />
             <label htmlFor="expense">Expense</label>
-            <input type="radio" id="income" value="income" />
+            <input
+              type="radio"
+              onChange={(e) => setTransactionType(e.target.value)}
+              id="income"
+              value="income"
+              checked={transactionType === "income"}
+            />
             <label htmlFor="income">Income</label>
 
             <button className="" type="submit">
