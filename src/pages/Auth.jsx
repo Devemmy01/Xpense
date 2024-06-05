@@ -15,7 +15,7 @@ const Auth = () => {
       displayName: results.user.displayName,
       email: results.user.email,
       photoURL: results.user.photoURL,
-      uid: results.user.uid,
+      userID: results.user.uid,
       isAuth: true
     }
     localStorage.setItem("authInfo", JSON.stringify(authInfo))

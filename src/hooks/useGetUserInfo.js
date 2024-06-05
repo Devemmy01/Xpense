@@ -1,8 +1,13 @@
-
 const useGetUserInfo = () => {
-  const {name, profilePhoto, userID, isAuth} = JSON.parse(localStorage.getItem("auth"));
-
-  return { name, profilePhoto, userID, isAuth }
-}
-
-export default useGetUserInfo
+    const auth = localStorage.getItem("authInfo");
+  
+    if (!auth) {
+      return null; // or return some default object
+    }
+  
+    const { displayName, PhotoURL, userID, email, isAuth } = JSON.parse(auth);
+  
+    return { displayName, PhotoURL, userID, email, isAuth };
+  };
+  
+  export default useGetUserInfo;
