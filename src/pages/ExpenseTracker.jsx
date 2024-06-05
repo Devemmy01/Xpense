@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from '@/components/ui/button'
 import useAddTransaction from "@/hooks/useAddTransaction";
 
 const ExpenseTracker = () => {
@@ -68,9 +69,9 @@ const ExpenseTracker = () => {
             />
             <label htmlFor="income">Income</label>
 
-            <button className="" type="submit">
+            <Button className="" type="submit">
               Add Transaction
-            </button>
+            </Button>
           </form>
         </div>
       </div>
