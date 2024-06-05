@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import useAddTransaction from "@/hooks/useAddTransaction";
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
+
+  const [description, setDesscription] = useState("");
+  const [transactionAmount, setTransactionAmount] = useState(0);
+  const [transactionType, setTransactionType] = useState("expense");
 
   if (!transaction) {
     return <div>Loading...</div>; // or return some default component
