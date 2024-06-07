@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from '@/components/ui/button'
 import useAddTransaction from "@/hooks/useAddTransaction";
+import useGetTransactions from "@/hooks/useGetTransactions";
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
@@ -14,6 +15,7 @@ const ExpenseTracker = () => {
   }
 
   const { addTransaction } = transaction;
+  const { transactions } = useGetTransactions()
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -76,7 +78,22 @@ const ExpenseTracker = () => {
         </div>
       </div>
 
-      <div className="transactions"></div>
+      <div className="transactions">
+        <h3>Transactions</h3>
+        <ul>
+          {transactions.map((transaction) => {
+            const { description, transactionAmount, transactionType } = transaction;
+            return (
+              <li>
+                <h4> { description } </h4>
+                <p>
+                  ${transactionAmount} . <label>{transactionType}</label>
+                </p>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     </>
   );
 };
