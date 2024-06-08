@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from '@/components/ui/button'
 import useAddTransaction from "@/hooks/useAddTransaction";
 import useGetTransactions from "@/hooks/useGetTransactions";
+import useGetUserInfo from "@/hooks/useGetUserInfo";
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
@@ -16,6 +17,7 @@ const ExpenseTracker = () => {
 
   const { addTransaction } = transaction;
   const { transactions } = useGetTransactions()
+  const { name, profilePhoto } = useGetUserInfo()
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ const ExpenseTracker = () => {
     <>
       <div>
         <div className="container">
-          <h1>Expense Tracker</h1>
+          <h1>{name}'s Expense Tracker</h1>
           <div className="balance">
             <h2>Your Balance</h2>
             <h3>$0.00</h3>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Button } from '@/components/ui/button'
 import { auth, provider } from "../config/firebase-config"
 import { signInWithPopup } from "firebase/auth"
@@ -6,9 +6,15 @@ import { useNavigate } from 'react-router-dom'
 
 const Auth = () => {
   const navigate = useNavigate()
+  const [isSigningIn, setIsSigningIn] = useState(false); // State to manage the popup request
 
   const signInWithGoogle = async () => {
-    const results = await signInWithPopup(auth, provider)
+
+    if (isSigningIn) return; // Prevent multiple popups
+    setIsSigningIn(true); // Set the state to true to indicate a popup is in progress
+    
+    try{
+      const results = await signInWithPopup(auth, provider)
     console.log(results)
 
     const authInfo = {
@@ -20,11 +26,16 @@ const Auth = () => {
     }
     localStorage.setItem("authInfo", JSON.stringify(authInfo))
     navigate("/expense_tracker")
+    } catch(err) {
+      console.error('Authentication error:', err)
+    } finally {
+      setIsSigningIn(false)
+    }
   }
 
   return (
     <div className="">
-      <Button className="" onClick={signInWithGoogle}>Sign in with Google</Button>
+      <Button className="" disabled={isSigningIn} onClick={signInWithGoogle}>Sign in with Google</Button>
     </div>
   )
 }
