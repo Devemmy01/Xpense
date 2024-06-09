@@ -11,6 +11,7 @@ import useGetUserInfo from "./useGetUserInfo";
 
 const useGetTransactions = () => {
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const transactionCollectionRef = collection(db, "transactions");
   const { userID } = useGetUserInfo();
 
@@ -31,11 +32,12 @@ const useGetTransactions = () => {
 
           docs.push({ ...data, id });
         });
-
         setTransactions(docs);
+        setLoading(false)
       });
     } catch (err) {
       console.error(err);
+      setLoading(false)
     }
 
     return () => unsubscribe();
@@ -45,7 +47,7 @@ const useGetTransactions = () => {
     getTransactions();
   }, []);
 
-  return { transactions };
+  return { transactions, loading };
 };
 
 export default useGetTransactions;

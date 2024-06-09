@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import useAddTransaction from "@/hooks/useAddTransaction";
 import useGetTransactions from "@/hooks/useGetTransactions";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
+import Loader from "@/components/ui/loader";
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
@@ -16,8 +17,8 @@ const ExpenseTracker = () => {
   }
 
   const { addTransaction } = transaction;
-  const { transactions } = useGetTransactions()
-  const { name, profilePhoto } = useGetUserInfo()
+  const { transactions, loading } = useGetTransactions();
+  const { displayName, PhotoURL, email } = useGetUserInfo();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ const ExpenseTracker = () => {
     <>
       <div>
         <div className="container">
-          <h1>{name}'s Expense Tracker</h1>
+          <h1>{displayName}'s Expense Tracker</h1>
           <div className="balance">
             <h2>Your Balance</h2>
             <h3>$0.00</h3>
@@ -78,23 +79,41 @@ const ExpenseTracker = () => {
             </Button>
           </form>
         </div>
+        {PhotoURL && (
+          <div className="profile">
+            <img src={PhotoURL} alt="" />
+            <p>{email}</p>
+          </div>
+         )}
       </div>
 
       <div className="transactions">
         <h3>Transactions</h3>
-        <ul>
-          {transactions.map((transaction) => {
-            const { description, transactionAmount, transactionType } = transaction;
-            return (
-              <li>
-                <h4> { description } </h4>
-                <p>
-                  ${transactionAmount} . <label style={{color: transactionType === "expense" ? "red" : "green"}}>{transactionType}</label>
-                </p>
-              </li>
-            )
-          })}
-        </ul>
+        {loading ? (
+          <Loader />
+        ) : (
+          <ul>
+            {transactions.map((transaction) => {
+              const { id, description, transactionAmount, transactionType } =
+                transaction;
+              return (
+                <li key={id}>
+                  <h4> {description} </h4>
+                  <p>
+                    ${transactionAmount} .{" "}
+                    <label
+                      style={{
+                        color: transactionType === "expense" ? "red" : "green",
+                      }}
+                    >
+                      {transactionType}
+                    </label>
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </>
   );
