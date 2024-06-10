@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { signOut } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import useAddTransaction from "@/hooks/useAddTransaction";
 import useGetTransactions from "@/hooks/useGetTransactions";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
 import Loader from "@/components/ui/loader";
+import { auth } from "@/config/firebase-config";
+import { useNavigate } from "react-router-dom";
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
+  const navigate = useNavigate()
 
   const [description, setDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState(0);
@@ -17,12 +21,24 @@ const ExpenseTracker = () => {
   }
 
   const { addTransaction } = transaction;
-  const { transactions, loading } = useGetTransactions();
+  const { transactions, loading, transactionTotals } = useGetTransactions();
   const { displayName, PhotoURL, email } = useGetUserInfo();
+
+  const { balance, income, expense } = transactionTotals;
 
   const onSubmit = (e) => {
     e.preventDefault();
     addTransaction({ description, transactionAmount, transactionType });
+  };
+
+  const signOut = async () => {
+    try{
+      await signOut(auth);
+      localStorage.clear()
+      navigate("/")
+    } catch (err){
+      console.error(err)
+    }
   };
 
   const getInitials = (name) => {
@@ -41,16 +57,16 @@ const ExpenseTracker = () => {
           <h1>{displayName}'s Expense Tracker</h1>
           <div className="balance">
             <h2>Your Balance</h2>
-            <h3>$0.00</h3>
+            <h3>₦ 0.00</h3>
           </div>
           <div className="summary">
             <div>
               <h4>Income</h4>
-              <p>$0.00</p>
+              <p>₦ {income}</p>
             </div>
             <div>
               <h3>Expenses</h3>
-              <p>$0.00</p>
+              <p>₦ {expense}</p>
             </div>
           </div>
 
@@ -101,6 +117,9 @@ const ExpenseTracker = () => {
               <p className="text-[#000] text-[15px] font-semibold">{email}</p>
             </div>
           )}
+          <Button className="signout" onClick={signOut}>
+            Sign Out
+          </Button>
         </div>
       </div>
 

@@ -1,43 +1,50 @@
-import React,{useState} from 'react'
-import { Button } from '@/components/ui/button'
-import { auth, provider } from "../config/firebase-config"
-import { signInWithPopup } from "firebase/auth"
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { auth, provider } from "../config/firebase-config";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import Loader from "@/components/ui/loader";
 
 const Auth = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isSigningIn, setIsSigningIn] = useState(false); // State to manage the popup request
 
   const signInWithGoogle = async () => {
-
     if (isSigningIn) return; // Prevent multiple popups
     setIsSigningIn(true); // Set the state to true to indicate a popup is in progress
-    
-    try{
-      const results = await signInWithPopup(auth, provider)
-    console.log(results)
 
-    const authInfo = {
-      displayName: results.user.displayName,
-      email: results.user.email,
-      photoURL: results.user.photoURL,
-      userID: results.user.uid,
-      isAuth: true
-    }
-    localStorage.setItem("authInfo", JSON.stringify(authInfo))
-    navigate("/expense_tracker")
-    } catch(err) {
-      console.error('Authentication error:', err)
+    try {
+      const results = await signInWithPopup(auth, provider);
+      console.log(results);
+
+      const authInfo = {
+        displayName: results.user.displayName,
+        email: results.user.email,
+        photoURL: results.user.photoURL,
+        userID: results.user.uid,
+        isAuth: true,
+      };
+      localStorage.setItem("authInfo", JSON.stringify(authInfo));
+      navigate("/expense_tracker");
+    } catch (err) {
+      console.error("Authentication error:", err);
     } finally {
-      setIsSigningIn(false)
+      setIsSigningIn(false);
     }
-  }
+  };
 
   return (
     <div className="">
-      <Button className="" disabled={isSigningIn} onClick={signInWithGoogle}>Sign in with Google</Button>
+      {/* {loading && <Loader />} */}
+      <Button className="" disabled={isSigningIn} onClick={signInWithGoogle}>
+        {isSigningIn ? (
+          <Loader />
+        ) : (
+          "Sign in with Google"
+        )}
+      </Button>
     </div>
-  )
-}
+  );
+};
 
-export default Auth
+export default Auth;
