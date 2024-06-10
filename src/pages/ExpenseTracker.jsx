@@ -24,6 +24,16 @@ const ExpenseTracker = () => {
     e.preventDefault();
     addTransaction({ description, transactionAmount, transactionType });
   };
+
+  const getInitials = (name) => {
+    if (!name) return "";
+    const initials = name
+      .split(" ")
+      .map((word) => word[0])
+      .join("");
+    return initials.toUpperCase();
+  };
+
   return (
     <>
       <div>
@@ -79,12 +89,19 @@ const ExpenseTracker = () => {
             </Button>
           </form>
         </div>
-        {PhotoURL && (
-          <div className="profile">
-            <img src={PhotoURL} alt="" />
-            <p>{email}</p>
-          </div>
-         )}
+        <div className="profile">
+          {PhotoURL ? (
+            <div>
+              <img src={PhotoURL} alt="Profile" />
+              <p className="text-[#000] text-[15px] font-semibold">{email}</p>
+            </div>
+          ) : (
+            <div>
+              <div className="profile-fallback font-bold">{getInitials(displayName)}</div>
+              <p className="text-[#000] text-[15px] font-semibold">{email}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="transactions">
