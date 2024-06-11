@@ -33,8 +33,8 @@ module.exports = {
       },
     },
     fontFamily:{
-      Mon: ['Open Sans', 'sans-serif'],
-      Open: ['Ojuju', 'sans-serif']
+      Mon: ['Lato', 'sans-serif'],
+      Ojuju: ['Ojuju', 'sans-serif']
     },
   },
   plugins: [require("tailwindcss-animate")],

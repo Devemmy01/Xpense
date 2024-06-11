@@ -26,9 +26,30 @@ const ExpenseTracker = () => {
 
   const { balance, income, expense } = transactionTotals;
 
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      currencyDisplay: "symbol",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })
+      .format(amount)
+      .replace("₦", "₦ ");
+  };
+
+  const getFirstName = (fullName) => {
+    if(!fullName) return "";
+    return fullName.split(" ")[0];
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
-    addTransaction({ description, transactionAmount, transactionType });
+    addTransaction({
+      description,
+      transactionAmount: parseFloat(transactionAmount),
+      transactionType,
+    });
 
     setDescription("");
     setTransactionAmount("");
@@ -54,26 +75,78 @@ const ExpenseTracker = () => {
   };
 
   return (
-    <>
-      <div>
-        <div className="container">
-          <h1>Welcome, {displayName} 🤗</h1>
-          <div className="balance">
-            <h3>Your Balance</h3>
-            {balance >= 0 ? <h2>₦ {balance}</h2> : <h2>-₦ {balance * -1}</h2>}
-          </div>
-          <div className="summary">
-            <div>
-              <h4>Income</h4>
-              <p>₦ {income}</p>
+    <div className="bg-[#09090b] pt-10 md:pt-7 px-6 flex flex-col items-center justify-center">
+      <div className="w-full md:w-[]">
+        <div>
+          <div className="flex justify-between">
+            <div className="flex gap-3">
+              {PhotoURL ? (
+                <div>
+                  <img src={PhotoURL} alt="Profile" />
+                </div>
+              ) : (
+                <div>
+                  <div className="profile-fallback font-bold">
+                    {getInitials(displayName)}
+                  </div>
+                </div>
+              )}
+              <h1 className="text-white font-bold font-Mon flex items-center">
+                Hello, {getFirstName(displayName)} 👋
+              </h1>
             </div>
-            <div>
-              <h3>Expenses</h3>
-              <p>₦ {expense}</p>
+
+            <Button style={{
+              background: "linear-gradient(45deg, #ff0040, #ff9900)",
+            }} className="signout" onClick={signOut}>
+            <i className='bx bx-log-out text-xl'></i>
+            </Button>
+          </div>
+        </div>
+        <div className="">
+          <div
+            style={{
+              background: "linear-gradient(45deg, #ff0040, #ff9900)",
+            }}
+            className="balance w-full mt-10 rounded-[15px] h-[120px] text-center flex flex-col items-center justify-center"
+          >
+            <h3 className="text-white text-xl font-semibold">Balance</h3>
+            {balance >= 0 ? (
+              <h2 className="text-white text-4xl font-bold font-Mon">
+                {formatCurrency(balance)}
+              </h2>
+            ) : (
+              <h2 className="text-white text-4xl font-bold font-Mon">
+                -{formatCurrency(balance * -1)}
+              </h2>
+            )}
+          </div>
+          <div className="flex gap-2 -mt-8">
+            <div
+              style={{
+                background: "linear-gradient(45deg, #ff0040, #ff9900)",
+              }}
+              className="balance w-full mt-10 rounded-[15px] h-[120px] text-center flex flex-col items-center justify-center"
+            >
+              <h4 className="text-white text-xl font-semibold">Income</h4>
+              <p className="text-white text-2xl md:text-4xl font-bold font-Mon">
+                {formatCurrency(income)}
+              </p>
+            </div>
+            <div
+              style={{
+                background: "linear-gradient(45deg, #ff0040, #ff9900)",
+              }}
+              className="balance w-full mt-10 rounded-[15px] h-[120px] text-center flex flex-col items-center justify-center"
+            >
+              <h3 className="text-white text-xl font-semibold">Expenses</h3>
+              <p className="text-white text-2xl md:text-4xl font-bold font-Mon">
+                {formatCurrency(expense)}
+              </p>
             </div>
           </div>
 
-          <form className="add_transaction" onSubmit={onSubmit}>
+          <form className="flex flex-col" onSubmit={onSubmit}>
             <input
               type="text"
               onChange={(e) => setDescription(e.target.value)}
@@ -110,24 +183,6 @@ const ExpenseTracker = () => {
             </Button>
           </form>
         </div>
-        <div className="profile">
-          {PhotoURL ? (
-            <div>
-              <img src={PhotoURL} alt="Profile" />
-              <p className="text-[#000] text-[15px] font-semibold">{email}</p>
-            </div>
-          ) : (
-            <div>
-              <div className="profile-fallback font-bold">
-                {getInitials(displayName)}
-              </div>
-              <p className="text-[#000] text-[15px] font-semibold">{email}</p>
-            </div>
-          )}
-          <Button className="signout" onClick={signOut}>
-            Sign Out
-          </Button>
-        </div>
       </div>
 
       <div className="transactions">
@@ -143,7 +198,7 @@ const ExpenseTracker = () => {
                 <li key={id}>
                   <h4> {description} </h4>
                   <p>
-                    ₦ {transactionAmount} .{" "}
+                    {formatCurrency(parseFloat(transactionAmount))}
                     <label
                       style={{
                         color: transactionType === "expense" ? "red" : "green",
@@ -158,7 +213,7 @@ const ExpenseTracker = () => {
           </ul>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

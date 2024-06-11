@@ -47,7 +47,7 @@ const Auth = () => {
       <img src={logo} className="w-[80px] h-[px] md:w-[100px] md:h-[60px] absolute hidden md:flex md:left-20 top-5" alt="logo" />
       <img src={Img} alt="auth_image" className="" />
       <div className="px-3 md:px-7 -mt-10 flex flex-col gap-2">
-        <h1 className="text-white tracking-wider text-5xl md:text-[55px] leading-[3rem] font-Open font-[900]">
+        <h1 className="text-white tracking-wider text-5xl md:text-[55px] leading-[3rem] font-Ojuju font-[900]">
           Never Lose Track of <span className="text">Expenses</span> Again
         </h1>
         <p className="text-white text-[16px] md:text-xl font-Mon">

@@ -7,12 +7,12 @@ body{
   padding: 0;
   margin: 0;
 } */
-.profile {
+/* .profile {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 10px;
-}
+} */
 
 .profile img {
   width: 50px;
