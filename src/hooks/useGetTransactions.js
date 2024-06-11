@@ -41,11 +41,13 @@ const useGetTransactions = () => {
 
           docs.push({ ...data, id });
 
-          if (data.trasactionType === "expense"){
+          if (data.transactionType === "expense"){
             totalExpense += Number(data.transactionAmount)
           } else{
             totalIncome += Number(data.transactionAmount)
           }
+
+          console.log(totalExpense, totalIncome)
         });
         setTransactions(docs);
 

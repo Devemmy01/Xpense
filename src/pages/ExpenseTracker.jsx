@@ -29,6 +29,9 @@ const ExpenseTracker = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     addTransaction({ description, transactionAmount, transactionType });
+
+    setDescription("");
+    setTransactionAmount("");
   };
 
   const signOut = async () => {
@@ -56,8 +59,13 @@ const ExpenseTracker = () => {
         <div className="container">
           <h1>{displayName}'s Expense Tracker</h1>
           <div className="balance">
-            <h2>Your Balance</h2>
-            <h3>₦ 0.00</h3>
+            <h3>Your Balance</h3>
+            {balance >= 0 ? (
+            <h2>₦ {balance}</h2>
+            ) : (
+            <h2>-₦ {balance * - 1}</h2>
+
+            )}
           </div>
           <div className="summary">
             <div>
@@ -75,12 +83,14 @@ const ExpenseTracker = () => {
               type="text"
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
+              value={description}
               required
             />
             <input
               type="number"
               onChange={(e) => setTransactionAmount(e.target.value)}
               placeholder="Amount"
+              value={transactionAmount}
               required
             />
             <input
