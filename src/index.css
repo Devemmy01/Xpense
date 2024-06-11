@@ -1,8 +1,12 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-  
+@tailwind components;
+@tailwind utilities;
 
+/* 
+body{
+  padding: 0;
+  margin: 0;
+} */
 .profile {
   display: flex;
   align-items: center;
@@ -28,3 +32,20 @@
   color: white;
   text-transform: uppercase;
 }
+
+.text {
+  background: linear-gradient(45deg, #ff0040, #ff9900);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 6px 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #000 #0000;
+  animation: l1 1s infinite;
+}
+@keyframes l1 {to{transform: rotate(.5turn)}}

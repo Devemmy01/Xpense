@@ -6,10 +6,13 @@ import { useNavigate, Navigate } from "react-router-dom";
 import Loader from "@/components/ui/loader";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
 
+import Img from "../assets/auth.png";
+import logo from "../assets/log.png";
+
 const Auth = () => {
   const navigate = useNavigate();
   const [isSigningIn, setIsSigningIn] = useState(false); // State to manage the popup request
-  const { isAuth } = useGetUserInfo();
+  const { isAuth } = useGetUserInfo() || {};
 
   const signInWithGoogle = async () => {
     if (isSigningIn) return; // Prevent multiple popups
@@ -40,14 +43,22 @@ const Auth = () => {
   }
 
   return (
-    <div className="">
-      {/* {loading && <Loader />} */}
-      <Button className="" disabled={isSigningIn} onClick={signInWithGoogle}>
-        {isSigningIn ? (
-          <Loader />
-        ) : (
-          "Sign in with Google"
-        )}
+    <div className="bg-[#09090b] h-screen pb-20 flex flex-col items-center justify-center">
+      <img src={logo} className="w-[80px] h-[px] md:w-[100px] md:h-[60px] absolute hidden md:flex md:left-20 top-5" alt="logo" />
+      <img src={Img} alt="auth_image" className="" />
+      <div className="px-3 md:px-7 -mt-10 flex flex-col gap-2">
+        <h1 className="text-white tracking-wider text-5xl md:text-[55px] leading-[3rem] font-Open font-[900]">
+          Never Lose Track of <span className="text">Expenses</span> Again
+        </h1>
+        <p className="text-white text-[16px] md:text-xl font-Mon">
+          Your ultimate companion for hassle-free expense management
+        </p>
+      </div>
+      <Button style={{
+        background: 'linear-gradient(45deg, #ff0040, #ff9900)',
+        color: 'transparent',
+      }} className="p-8 w-[60px] rounded-full mt-7 absolute bottom-3 right-4 md:bottom-7 md:right-12" disabled={isSigningIn} onClick={signInWithGoogle}>
+        {isSigningIn ? <Loader /> : <i class='bx bx-right-arrow-alt -rotate-45 text-4xl text-black'></i>}
       </Button>
     </div>
   );
