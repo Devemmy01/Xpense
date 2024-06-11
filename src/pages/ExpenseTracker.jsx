@@ -10,10 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [description, setDescription] = useState("");
-  const [transactionAmount, setTransactionAmount] = useState(0);
+  const [transactionAmount, setTransactionAmount] = useState("");
   const [transactionType, setTransactionType] = useState("expense");
 
   if (!transaction) {
@@ -35,12 +35,12 @@ const ExpenseTracker = () => {
   };
 
   const signOut = async () => {
-    try{
+    try {
       await signOut(auth);
-      localStorage.clear()
-      navigate("/")
-    } catch (err){
-      console.error(err)
+      localStorage.clear();
+      navigate("/");
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -57,15 +57,10 @@ const ExpenseTracker = () => {
     <>
       <div>
         <div className="container">
-          <h1>{displayName}'s Expense Tracker</h1>
+          <h1>Welcome, {displayName} 🤗</h1>
           <div className="balance">
             <h3>Your Balance</h3>
-            {balance >= 0 ? (
-            <h2>₦ {balance}</h2>
-            ) : (
-            <h2>-₦ {balance * - 1}</h2>
-
-            )}
+            {balance >= 0 ? <h2>₦ {balance}</h2> : <h2>-₦ {balance * -1}</h2>}
           </div>
           <div className="summary">
             <div>
@@ -123,7 +118,9 @@ const ExpenseTracker = () => {
             </div>
           ) : (
             <div>
-              <div className="profile-fallback font-bold">{getInitials(displayName)}</div>
+              <div className="profile-fallback font-bold">
+                {getInitials(displayName)}
+              </div>
               <p className="text-[#000] text-[15px] font-semibold">{email}</p>
             </div>
           )}
@@ -146,7 +143,7 @@ const ExpenseTracker = () => {
                 <li key={id}>
                   <h4> {description} </h4>
                   <p>
-                    ${transactionAmount} .{" "}
+                    ₦ {transactionAmount} .{" "}
                     <label
                       style={{
                         color: transactionType === "expense" ? "red" : "green",
