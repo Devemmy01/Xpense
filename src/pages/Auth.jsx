@@ -5,6 +5,8 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate, Navigate } from "react-router-dom";
 import Loader from "@/components/ui/loader";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Img from "../assets/auth.png";
 import logo from "../assets/log.png";
@@ -30,8 +32,16 @@ const Auth = () => {
         isAuth: true,
       };
       localStorage.setItem("authInfo", JSON.stringify(authInfo));
+      toast("Sign in successful! ✅", {
+        style: { background: "black", color: "white" },
+        progressStyle: { background: "orange" }
+      });
       navigate("/expense_tracker");
     } catch (err) {
+      toast("Sign in failed! ❌", {
+        style: { background: "black", color: "white" },
+        progressStyle: { background: "orange" }
+      });
       console.error("Authentication error:", err);
     } finally {
       setIsSigningIn(false);

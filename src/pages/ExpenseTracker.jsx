@@ -8,6 +8,21 @@ import Loader from "@/components/ui/loader";
 import { auth } from "@/config/firebase-config";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
@@ -59,6 +74,10 @@ const ExpenseTracker = () => {
 
     setDescription("");
     setTransactionAmount("");
+    toast("Transaction added! ✅", {
+      style: { background: "black", color: "white" },
+      progressStyle: { background: "orange" }
+    });
   };
 
   const signOut = async () => {
@@ -70,6 +89,36 @@ const ExpenseTracker = () => {
       console.error(err);
     }
   };
+
+  const signOutButton = (
+    <AlertDialog>
+      <AlertDialogTrigger>
+        <Button
+          style={{
+            background: "linear-gradient(45deg, #ff0040, #ff9900)",
+          }}
+          className="signout"
+        >
+          <i className="bx bx-log-out text-xl"></i>
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="bg-[#09090b] border-none">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-white">Are you sure you want to sign out?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action will log you out of your account.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction style={{
+            background: "linear-gradient(45deg, #ff0040, #ff9900)",
+          }} onClick={signOut}>Sign Out</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+
 
   const getInitials = (name) => {
     if (!name) return "";
@@ -89,6 +138,7 @@ const ExpenseTracker = () => {
               {PhotoURL ? (
                 <div>
                   <img src={PhotoURL} alt="Profile" />
+                  <p className="text-white text-[17px] font-semibold">{email}</p>
                 </div>
               ) : (
                 <div>
@@ -102,7 +152,8 @@ const ExpenseTracker = () => {
               </h1>
             </div>
 
-            <Button
+            {signOutButton}
+            {/* <Button
               style={{
                 background: "linear-gradient(45deg, #ff0040, #ff9900)",
               }}
@@ -110,7 +161,7 @@ const ExpenseTracker = () => {
               onClick={signOut}
             >
               <i className="bx bx-log-out text-xl"></i>
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="">
@@ -183,7 +234,7 @@ const ExpenseTracker = () => {
                   onChange={(e) => setTransactionType(e.target.value)}
                   id="expense"
                   value="expense"
-                  checked={transactionType === "out"}
+                  checked={transactionType === "expense"}
                 />
               </div>
               <div className="flex gap-2">
@@ -195,7 +246,7 @@ const ExpenseTracker = () => {
                   onChange={(e) => setTransactionType(e.target.value)}
                   id="income"
                   value="income"
-                  checked={transactionType === "in"}
+                  checked={transactionType === "income"}
                 />
               </div>
             </div>
@@ -207,6 +258,7 @@ const ExpenseTracker = () => {
             >
               Add Transaction
             </Button>
+            <ToastContainer />
           </form>
         </div>
       </div>
