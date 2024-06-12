@@ -7,6 +7,7 @@ import useGetUserInfo from "@/hooks/useGetUserInfo";
 import Loader from "@/components/ui/loader";
 import { auth } from "@/config/firebase-config";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 const ExpenseTracker = () => {
   const transaction = useAddTransaction();
@@ -39,8 +40,13 @@ const ExpenseTracker = () => {
   };
 
   const getFirstName = (fullName) => {
-    if(!fullName) return "";
+    if (!fullName) return "";
     return fullName.split(" ")[0];
+  };
+
+  const getShortTransactionType = (type) => {
+    if (type === "expense") return "-";
+    if (type === "income") return "+";
   }
 
   const onSubmit = (e) => {
@@ -76,7 +82,7 @@ const ExpenseTracker = () => {
 
   return (
     <div className="bg-[#09090b] pt-10 md:pt-7 px-6 flex flex-col items-center justify-center">
-      <div className="w-full md:w-[]">
+      <div className="w-full max-w-[550px]">
         <div>
           <div className="flex justify-between">
             <div className="flex gap-3">
@@ -96,10 +102,14 @@ const ExpenseTracker = () => {
               </h1>
             </div>
 
-            <Button style={{
-              background: "linear-gradient(45deg, #ff0040, #ff9900)",
-            }} className="signout" onClick={signOut}>
-            <i className='bx bx-log-out text-xl'></i>
+            <Button
+              style={{
+                background: "linear-gradient(45deg, #ff0040, #ff9900)",
+              }}
+              className="signout"
+              onClick={signOut}
+            >
+              <i className="bx bx-log-out text-xl"></i>
             </Button>
           </div>
         </div>
@@ -146,8 +156,9 @@ const ExpenseTracker = () => {
             </div>
           </div>
 
-          <form className="flex flex-col" onSubmit={onSubmit}>
+          <form className="flex flex-col gap-5 mt-5" onSubmit={onSubmit}>
             <input
+              className="bg-transparent text-white p-2 outline-none border rounded-[10px]"
               type="text"
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
@@ -155,56 +166,90 @@ const ExpenseTracker = () => {
               required
             />
             <input
+              className="bg-transparent text-white p-2 outline-none border rounded-[10px]"
               type="number"
               onChange={(e) => setTransactionAmount(e.target.value)}
               placeholder="Amount"
               value={transactionAmount}
               required
             />
-            <input
-              type="radio"
-              onChange={(e) => setTransactionType(e.target.value)}
-              id="expense"
-              value="expense"
-              checked={transactionType === "expense"}
-            />
-            <label htmlFor="expense">Expense</label>
-            <input
-              type="radio"
-              onChange={(e) => setTransactionType(e.target.value)}
-              id="income"
-              value="income"
-              checked={transactionType === "income"}
-            />
-            <label htmlFor="income">Income</label>
+            <div className="flex gap-8">
+              <div className="flex gap-2">
+                <label htmlFor="expense" className="text-white">
+                  Expense
+                </label>
+                <input
+                  type="radio"
+                  onChange={(e) => setTransactionType(e.target.value)}
+                  id="expense"
+                  value="expense"
+                  checked={transactionType === "out"}
+                />
+              </div>
+              <div className="flex gap-2">
+                <label htmlFor="income" className="text-white">
+                  Income
+                </label>
+                <input
+                  type="radio"
+                  onChange={(e) => setTransactionType(e.target.value)}
+                  id="income"
+                  value="income"
+                  checked={transactionType === "in"}
+                />
+              </div>
+            </div>
 
-            <Button className="" type="submit">
+            <Button
+              style={{ background: "linear-gradient(45deg, #ff0040, #ff9900)" }}
+              className="text-xl "
+              type="submit"
+            >
               Add Transaction
             </Button>
           </form>
         </div>
       </div>
 
-      <div className="transactions">
-        <h3>Transactions</h3>
+      <div className="w-full max-w-[550px] mt-10 mb-10">
+        <h3 className="text-white text-[25px] font-Ojuju font-bold mb-2">
+          Transactions
+        </h3>
         {loading ? (
-          <Loader />
+          <div className="w-full flex items-center justify-center mt-4 ">
+            <Loader />
+          </div>
         ) : (
-          <ul>
+          <ul className="h-[400px] overflow-scroll">
             {transactions.map((transaction) => {
-              const { id, description, transactionAmount, transactionType } =
-                transaction;
+              const {
+                id,
+                description,
+                transactionAmount,
+                transactionType,
+                createdAt,
+              } = transaction;
+              const date = createdAt
+                ? format(createdAt.toDate(), "MMMM d, yyyy h:mm a")
+                : "Date not available";
               return (
-                <li key={id}>
-                  <h4> {description} </h4>
-                  <p>
+                <li
+                  key={id}
+                  className="bg-gray-900 bg-opacity-20 p-4 rounded-lg mb-2 flex justify-between mt-3"
+                >
+                  <div className="flex flex-col">
+                    <h4 className="text-white capitalize font-semibold"> {description} </h4>
+                    <p className="text-gray-400 text-sm">{date}</p>
+                  </div>
+
+                  <p className="text-white flex gap-1 font-semibold">
                     {formatCurrency(parseFloat(transactionAmount))}
                     <label
                       style={{
                         color: transactionType === "expense" ? "red" : "green",
                       }}
                     >
-                      {transactionType}
+                      {getShortTransactionType(transactionType)}
                     </label>
                   </p>
                 </li>
