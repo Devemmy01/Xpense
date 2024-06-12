@@ -67,7 +67,7 @@ const Auth = () => {
       <Button style={{
         background: 'linear-gradient(45deg, #ff0040, #ff9900)',
         color: 'transparent',
-      }} className="p-8 w-[60px] rounded-full mt-7 absolute bottom-3 right-4 md:bottom-7 md:right-12" disabled={isSigningIn} onClick={signInWithGoogle}>
+      }} className="p-8 w-[60px] rounded-full mt-7 absolute bottom-3 right-4 cursor-pointer md:bottom-7 md:right-12" disabled={isSigningIn} onClick={signInWithGoogle}>
         {isSigningIn ? <Loader /> : <i class='bx bx-right-arrow-alt -rotate-45 text-4xl text-black'></i>}
       </Button>
     </div>
