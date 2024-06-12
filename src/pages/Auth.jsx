@@ -60,7 +60,7 @@ const Auth = () => {
         <h1 className="text-white tracking-wider text-5xl md:text-[55px] leading-[3rem] font-Ojuju font-[900]">
           Never Lose Track of <span className="text">Expenses</span> Again
         </h1>
-        <p className="text-white text-[16px] md:text-xl font-Mon">
+        <p className="text-white text-[16px] md:text-xl font-Mon pb-10">
           Your ultimate companion for hassle-free expense management
         </p>
       </div>

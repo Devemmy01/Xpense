@@ -23,7 +23,7 @@ export default defineConfig({
         background_color: "#09090b",
         icons: [
           {
-            src: "/dist/img.png",
+            src: "/img.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
