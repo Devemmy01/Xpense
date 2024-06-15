@@ -9,10 +9,10 @@
 
   <br />
 
-  <h3 align="center">Expense</h3>
+  <h3 align="center">Xpense</h3>
 
    <div align="center">
-     Expense is an expense tracker application that allows users to manage their transactions effectively. Users can log in with their Gmail accounts, add and view transactions, and see their income, expenses, and balance. Each transaction is timestamped with the date and time it was added.
+     Xpense is an expense tracker application that allows users to manage their transactions effectively. Users can log in with their Gmail accounts, add and view transactions, and see their income, expenses, and balance. Each transaction is timestamped with the date and time it was added.
   </div>
 </div>
 
@@ -40,7 +40,24 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/expense-tracker.git
-   cd expense-tracker
+   git clone https://github.com/your-username/Xpense.git
+   cd Xpense.git
 
 2. Install dependencies:
+   ```bash
+   npm install
+
+3. Configure Firebase:
+    Create a .env file in the root directory.
+    Add your Firebase configuration:
+   ```bash
+   REACT_APP_FIREBASE_API_KEY=your-api-key
+   REACT_APP_FIREBASE_AUTH_DOMAIN=your-auth-domain
+   REACT_APP_FIREBASE_PROJECT_ID=your-project-id
+   REACT_APP_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+   REACT_APP_FIREBASE_APP_ID=your-app-id
+
+4. Start the development server:
+   ```bash
+   npm run dev
