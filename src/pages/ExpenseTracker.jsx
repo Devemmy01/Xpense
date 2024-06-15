@@ -272,7 +272,7 @@ const ExpenseTracker = () => {
             <Loader />
           </div>
         ) : (
-          <ul className="h-[400px] overflow-scroll">
+          <ul className="h-[400px] overflow-y-scroll">
             {transactions.map((transaction) => {
               const {
                 id,
