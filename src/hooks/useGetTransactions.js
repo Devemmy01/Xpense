@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   query,
   collection,
@@ -6,7 +6,7 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
-import { db } from "@/config/firebase-config";
+import { db } from "../config/firebase-config";
 import useGetUserInfo from "./useGetUserInfo";
 
 const useGetTransactions = () => {
@@ -18,9 +18,15 @@ const useGetTransactions = () => {
   });
   const [loading, setLoading] = useState(true);
   const transactionCollectionRef = collection(db, "transactions");
-  const { userID } = useGetUserInfo();
+  const userInfo = useGetUserInfo();
+  const userID = userInfo?.userID;
 
   const getTransactions = async () => {
+    if (!userID) {
+      setLoading(false);
+      return;
+    }
+
     let unsubscribe;
     try {
       const queryTransactions = query(
@@ -46,8 +52,6 @@ const useGetTransactions = () => {
           } else{
             totalIncome += Number(data.transactionAmount)
           }
-
-          console.log(totalExpense, totalIncome)
         });
         setTransactions(docs);
 
@@ -66,12 +70,16 @@ const useGetTransactions = () => {
       setLoading(false)
     }
 
-    return () => unsubscribe();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   };
 
   useEffect(() => {
     getTransactions();
-  }, []);
+  }, [userID]);
 
   return { transactions, loading, transactionTotals };
 };

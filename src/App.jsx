@@ -4,16 +4,15 @@ import Auth from "./pages/Auth"
 import ExpenseTracker from "./pages/ExpenseTracker"
 
 function App() {
-
   return (
-      <div className="App">
-        <Router>
-          <Routes>
-            <Route path="/" exact element={<Auth />}/>
-            <Route path="expense_tracker" element={<ExpenseTracker />} />
-          </Routes>
-        </Router>
-      </div>
+    <div className="min-h-screen">
+      <Router>
+        <Routes>
+          <Route path="/" exact element={<Auth />}/>
+          <Route path="expense_tracker" element={<ExpenseTracker />} />
+        </Routes>
+      </Router>
+    </div>
   )
 }
 
