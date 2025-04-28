@@ -575,7 +575,7 @@ const ExpenseTracker = () => {
                                     </svg>
                                   </Button>
                                 </div>
-                              </DropdownMenuItem>
+                    </DropdownMenuItem>
                             ))}
                           </div>
                         ))}
